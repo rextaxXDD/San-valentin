@@ -2,27 +2,40 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>14 de Febrero 💖</title>
 
 <style>
-   .page-content{
+.page-content{
   display:flex;
   flex-direction:column;
   height:100%;
+  justify-content:flex-start;
 }
 
-
 .page-gif{
-  margin-top:10px;
+  margin-top:auto;
+  margin-bottom:20px;
   text-align:center;
 }
 
 .page-gif img{
   max-width:100%;
-  max-height:90px;   /* antes 70 */
+  max-height:90px;
   image-rendering:pixelated;
+  animation: fadeInGif 0.8s ease-in;
 }
 
+@keyframes fadeInGif{
+  from{
+    opacity:0;
+    transform:scale(0.8);
+  }
+  to{
+    opacity:1;
+    transform:scale(1);
+  }
+}
 
 *{
   box-sizing:border-box;
@@ -95,13 +108,14 @@ body{
     drop-shadow(1px 0 cyan);
 }
 
-/* ================= CORAZONES ================= */
+/* ================= CORAZONES MEJORADOS ================= */
 .heart{
   position:absolute;
   bottom:-80px;
   width:8px;
   height:8px;
   animation:floatUp 5s linear forwards;
+  filter:drop-shadow(0 0 3px currentColor);
 }
 
 .heart::before{
@@ -120,7 +134,7 @@ body{
 
 @keyframes floatUp{
   to{
-    transform:translateY(-120vh);
+    transform:translateY(-120vh) rotate(360deg);
     opacity:0;
   }
 }
@@ -140,97 +154,320 @@ body{
   z-index:10;
 }
 
+/* ================= BOTONES RETRO ================= */
 button{
   background:#ff4d6d;
   border:none;
-  padding:8px 16px;
-  border-radius:6px;
+  padding:10px 20px;
+  border-radius:0;
   font-size:14px;
   cursor:pointer;
   margin:4px;
+  transition:all 0.1s ease;
+  font-weight:bold;
+  color:#fff;
+  image-rendering:pixelated;
+  box-shadow:
+    4px 4px 0 #000,
+    inset -2px -2px 0 rgba(0,0,0,0.3),
+    inset 2px 2px 0 rgba(255,255,255,0.3);
+  position:relative;
 }
 
-/* ================= LIBRO ================= */
+button:hover{
+  background:#ff1e56;
+  transform:translate(2px, 2px);
+  box-shadow:
+    2px 2px 0 #000,
+    inset -2px -2px 0 rgba(0,0,0,0.3),
+    inset 2px 2px 0 rgba(255,255,255,0.3);
+}
+
+button:active{
+  transform:translate(4px, 4px);
+  box-shadow:
+    0 0 0 #000,
+    inset -2px -2px 0 rgba(0,0,0,0.5);
+}
+
+/* ================= LIBRO RETRO PIXELADO ================= */
 .book{
-  width:420px;      /* más ancho */
-  height:320px;     /* MUCHO más alto para texto + gif */
+  width:420px;
+  height:320px;
   perspective:2000px;
   margin-bottom:18px;
+  animation:bookEntrance 1s ease-out;
+  image-rendering:pixelated;
+  position:relative;
 }
 
-
+@keyframes bookEntrance{
+  from{
+    opacity:0;
+    transform:scale(0.8) translateY(30px);
+  }
+  to{
+    opacity:1;
+    transform:scale(1) translateY(0);
+  }
+}
 
 .book-inner{
   width:100%;
   height:100%;
   position:relative;
   transform-style:preserve-3d;
-  transition:transform 1.6s ease;
+  transition:transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1);
 }
 
 .book.open .book-inner{
   transform:rotateY(-180deg);
 }
 
+/* PORTADA ESTILO RETRO 8-BIT */
 .cover{
   position:absolute;
   width:100%;
   height:100%;
-  background:#1f4ea8;
-  border-radius:8px;
+  top:0;
+  left:0;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      #1f4ea8 0px,
+      #1f4ea8 4px,
+      #2d5bb7 4px,
+      #2d5bb7 8px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      #1f4ea8 0px,
+      #1f4ea8 4px,
+      #2d5bb7 4px,
+      #2d5bb7 8px
+    );
+  border-radius:0;
   backface-visibility:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:24px;
+  font-weight:bold;
+  text-shadow:
+    3px 3px 0 #000,
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000;
+  box-shadow:
+    0 0 0 4px #000,
+    0 0 0 8px #2d5bb7,
+    8px 8px 0 8px #000,
+    inset 0 0 20px rgba(0,0,0,0.3);
+  position:absolute;
+  overflow:hidden;
+  border:4px solid #000;
 }
 
+/* Efecto de brillo retro en la portada */
+.cover::before{
+  content:"";
+  position:absolute;
+  top:-50%;
+  left:-50%;
+  width:200%;
+  height:200%;
+  background:
+    repeating-linear-gradient(
+      45deg,
+      transparent 0px,
+      transparent 10px,
+      rgba(255,255,255,0.05) 10px,
+      rgba(255,255,255,0.05) 20px
+    );
+  animation:shineRetro 4s linear infinite;
+}
+
+@keyframes shineRetro{
+  0%{transform:translateX(-100%) translateY(-100%)}
+  100%{transform:translateX(100%) translateY(100%)}
+}
+
+.cover-text{
+  z-index:1;
+  animation:pixelPulse 1s steps(2) infinite;
+  letter-spacing:2px;
+}
+
+@keyframes pixelPulse{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.1)}
+}
+
+/* PÁGINA ESTILO RETRO GAMEBOY - POSICIÓN FIJA */
 .page{
   position:absolute;
   width:100%;
   height:100%;
-  background:#f6f2d8;
+  top:0;
+  left:0;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      #e8dbb5 0px,
+      #e8dbb5 2px,
+      #f0e6c8 2px,
+      #f0e6c8 4px
+    );
   color:#000;
   transform:rotateY(180deg);
-  border-radius:10px;
-  padding:26px;     /* más aire */
+  border-radius:0;
+  padding:26px;
   backface-visibility:hidden;
+  box-shadow:
+    -8px 0 0 2px #000,
+    -8px 0 0 4px #8b4513,
+    inset 0 0 0 3px #000,
+    inset 0 0 0 6px #d2b48c;
+  border:3px solid #000;
 }
 
+/* Efecto de píxeles en el borde de la página */
+.page::before{
+  content:"";
+  position:absolute;
+  inset:8px;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      transparent 0px,
+      transparent 8px,
+      rgba(139,69,19,0.03) 8px,
+      rgba(139,69,19,0.03) 10px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      transparent 0px,
+      transparent 8px,
+      rgba(139,69,19,0.03) 8px,
+      rgba(139,69,19,0.03) 10px
+    );
+  pointer-events:none;
+  border:2px dashed rgba(139,69,19,0.2);
+}
 
 .page p{
   font-size:15.5px;
-  line-height:1.4;
+  line-height:1.5;
   white-space:pre-wrap;
-}
-.page-content p{
-  flex-grow:1;
+  text-shadow:1px 1px 0 rgba(0,0,0,0.1);
+  position:relative;
+  z-index:1;
+  margin:0;
 }
 
-
+/* CURSOR RETRO PIXELADO */
 .cursor{
   display:inline-block;
-  width:8px;
+  width:10px;
+  height:18px;
   background:#000;
-  animation:blink 1s infinite;
+  animation:blinkRetro 0.8s steps(1) infinite;
+  margin-left:2px;
+  vertical-align:text-bottom;
+  box-shadow:2px 2px 0 rgba(0,0,0,0.3);
 }
 
-@keyframes blink{
-  50%{opacity:0}
+@keyframes blinkRetro{
+  0%,49%{opacity:1}
+  50%,100%{opacity:0}
 }
 
-/* 🔒 OCULTAR BOTÓN SIGUIENTE AL INICIO */
+/* ================= ANIMACIÓN SUAVE DE VOLTEAR PÁGINA ================= */
+/* Efecto sutil de volteo de página */
+
+.page-overlay{
+  position:absolute;
+  width:50%;
+  height:100%;
+  top:0;
+  right:0;
+  background:linear-gradient(to left, rgba(0,0,0,0.2), transparent);
+  transform-origin:left center;
+  pointer-events:none;
+  opacity:0;
+  z-index:50;
+  border-left:3px solid #000;
+}
+
+.book.turning .page-overlay{
+  animation:pageFlipSmooth 0.6s ease-out forwards;
+}
+
+@keyframes pageFlipSmooth{
+  0%{
+    opacity:0;
+    transform:perspective(600px) rotateY(0deg) translateX(0);
+  }
+  10%{
+    opacity:1;
+  }
+  50%{
+    opacity:1;
+    transform:perspective(600px) rotateY(-90deg) translateX(-20px);
+  }
+  100%{
+    opacity:0;
+    transform:perspective(600px) rotateY(-180deg) translateX(-50px);
+  }
+}
+
+/* Pequeño efecto de shake en el libro */
+.book.turning{
+  animation:gentleShake 0.6s ease-out;
+}
+
+@keyframes gentleShake{
+  0%, 100%{transform:translate(0, 0)}
+  20%{transform:translate(-1px, 0)}
+  40%{transform:translate(1px, 0)}
+  60%{transform:translate(-1px, 0)}
+  80%{transform:translate(1px, 0)}
+}
+
 #nextBtn{
   display:none;
 }
 
-/* ================= 📱 RESPONSIVE CELULAR ================= */
-@media (max-width: 600px){
+/* ================= PARTÍCULAS DE ESTRELLAS RETRO ================= */
+.star{
+  position:absolute;
+  width:3px;
+  height:3px;
+  background:#fff;
+  box-shadow:
+    0 0 #fff,
+    1px 0 #fff,
+    0 1px #fff,
+    1px 1px #fff;
+  animation:twinkleRetro 2s steps(4) infinite;
+  image-rendering:pixelated;
+}
 
+@keyframes twinkleRetro{
+  0%,100%{opacity:0.3; transform:scale(1)}
+  50%{opacity:1; transform:scale(2)}
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 600px){
   .center{
     width:100%;
     padding:12px;
   }
 
   .book{
-    width:92vw;          /* casi todo el ancho del celular */
-    height:65vh;         /* alto suficiente para texto + gif */
+    width:92vw;
+    height:65vh;
     max-width:440px;
     max-height:520px;
   }
@@ -250,10 +487,40 @@ button{
 
   button{
     font-size:13px;
-    padding:7px 14px;
+    padding:8px 16px;
+  }
+
+  .cover{
+    font-size:20px;
   }
 }
 
+/* ================= CONTADOR DE PÁGINAS RETRO ================= */
+.page-counter{
+  position:absolute;
+  bottom:12px;
+  right:15px;
+  font-size:12px;
+  font-weight:bold;
+  color:#000;
+  background:#ffd700;
+  padding:4px 8px;
+  border:2px solid #000;
+  box-shadow:2px 2px 0 #000;
+  font-family:'Courier New', monospace;
+  z-index:2;
+}
+
+/* ================= CONTENEDOR DE BOTONES ================= */
+.button-container{
+  margin-top:15px;
+  display:flex;
+  gap:8px;
+  justify-content:center;
+  flex-wrap:wrap;
+  position:relative;
+  z-index:100;
+}
 
 </style>
 </head>
@@ -265,41 +532,65 @@ button{
   <div class="center">
     <div class="book" id="book">
       <div class="book-inner">
-        <div class="cover"></div>
+        <div class="cover">
+          <div class="cover-text">💖 PARA TI 💖</div>
+        </div>
         <div class="page">
-  <div class="page-content">
-    <p id="rpgText"></p><span class="cursor"></span>
+          <div class="page-content">
+            <p id="rpgText"></p><span class="cursor"></span>
 
-    <div class="page-gif">
-      <img id="pageGif" src="gif1.gif" alt="">
-    </div>
-  </div>
-</div>
+            <div class="page-gif">
+              <img id="pageGif" src="gif1.gif" alt="">
+            </div>
+          </div>
+          <div class="page-counter">
+            <span id="pageNumber">1</span>/<span id="totalPages">5</span>
+          </div>
+        </div>
       </div>
+      <!-- Overlay sutil para efecto de voltear página -->
+      <div class="page-overlay"></div>
     </div>
 
-    <button id="openBtn">Ábreme</button>
-    <button id="nextBtn" onclick="nextPage()">Siguiente 💌</button>
-    <button onclick="toggleVHS()">📼 VHS</button>
+    <div class="button-container">
+      <button id="openBtn">✨ ÁBREME ✨</button>
+      <button id="nextBtn" onclick="nextPage()">SIGUIENTE 💌</button>
+      <button id="vhsBtn" onclick="toggleVHS()">📼 VHS</button>
+    </div>
   </div>
 
 </div>
 
 <script>
-/* ❤️ corazones */
+/* ✨ Estrellas de fondo retro */
+function createStars(){
+  for(let i=0; i<40; i++){
+    const star = document.createElement('div');
+    star.className = 'star';
+    star.style.left = Math.random()*100+'vw';
+    star.style.top = Math.random()*100+'vh';
+    star.style.animationDelay = Math.random()*2+'s';
+    document.body.appendChild(star);
+  }
+}
+createStars();
+
+/* ❤️ corazones mejorados */
 setInterval(()=>{
   const h=document.createElement('div');
   h.className='heart';
   h.style.left=Math.random()*100+'vw';
-  h.style.color=['#ff4d6d','#ff7aa2','#ff1e56'][Math.floor(Math.random()*3)];
+  h.style.color=['#ff4d6d','#ff7aa2','#ff1e56','#ffc2d1'][Math.floor(Math.random()*4)];
+  h.style.animationDuration = (4 + Math.random()*2)+'s';
   document.body.appendChild(h);
-  setTimeout(()=>h.remove(),5000);
+  setTimeout(()=>h.remove(),6000);
 },220);
 
 /* 📼 VHS ON/OFF */
 function toggleVHS(){
   document.getElementById('screen').classList.toggle('vhs');
 }
+
 /* 🎵 música */
 const music=document.getElementById('bgMusic');
 
@@ -350,6 +641,12 @@ let pageIndex=0;
 let charIndex=0;
 const textBox=document.getElementById('rpgText');
 const nextBtn=document.getElementById('nextBtn');
+const openBtn=document.getElementById('openBtn');
+const vhsBtn=document.getElementById('vhsBtn');
+const book = document.getElementById('book');
+
+// Actualizar contador de páginas
+document.getElementById('totalPages').textContent = pages.length;
 
 function typeText(){
   if(charIndex < pages[pageIndex].length){
@@ -358,23 +655,47 @@ function typeText(){
   }
 }
 
-/* 📘 abrir libro */
-document.getElementById('openBtn').onclick=()=>{
-  document.getElementById('book').classList.add('open');
-  document.getElementById('openBtn').style.display='none';
-  nextBtn.style.display='inline-block';
-  music.play(); // 🎵 INICIA AQUÍ
-  typeText();
+/* 📘 abrir libro con efecto */
+openBtn.onclick=()=>{
+  book.classList.add('open');
+  openBtn.style.display='none';
+  
+  // Mostrar botón siguiente después de que se abra el libro
+  setTimeout(()=>{
+    nextBtn.style.display='inline-block';
+  }, 1200);
+  
+  music.play().catch(e => console.log('Audio blocked:', e));
+  
+  // Empezar a escribir después de la animación
+  setTimeout(()=>{
+    typeText();
+  }, 1400);
 };
 
-/* 💌 siguiente página */
+/* 💌 siguiente página con animación suave de volteo */
 function nextPage(){
   if(pageIndex < pages.length-1){
+    // Añadir clase de animación
+    book.classList.add('turning');
+    
+    // Remover clase después de la animación
+    setTimeout(()=>{
+      book.classList.remove('turning');
+    }, 600);
+    
     pageIndex++;
     charIndex=0;
     textBox.textContent="";
     pageGif.src = gifs[pageIndex];
-    typeText();
+    
+    // Actualizar contador
+    document.getElementById('pageNumber').textContent = pageIndex + 1;
+    
+    // Pequeño delay antes de empezar a escribir
+    setTimeout(()=>{
+      typeText();
+    }, 700);
   }else{
     nextBtn.style.display='none';
   }
@@ -383,6 +704,3 @@ function nextPage(){
 
 </body>
 </html>
-
-
-
